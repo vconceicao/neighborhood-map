@@ -1,0 +1,50 @@
+.wrapper{
+    align-items: stretch;
+    display: flex;
+    transition: all 0.5s;
+}
+
+#sidebar {
+    min-width: 250px;
+    max-width: 250px;
+    min-height: 100vh;
+    background: blue;
+    transition: all 0.5s;
+    padding: 15px;
+
+}
+
+#sidebar.active {
+    margin-left: -250px;
+    transition: all 0.5s;
+}
+
+
+  
+
+#map {
+    height: calc(100vh - 50px);
+    width: 100%;
+    padding-bottom: 100%; 
+}
+
+#content{
+    width: 100%;
+}
+
+
+
+#sidebar.active {
+    margin-left: -250px;
+}
+
+@media (max-width: 768px) {
+    #sidebar {
+        margin-left: -250px;
+    }
+    #sidebar.active {
+        margin-left: 0;
+    }
+
+
+}
