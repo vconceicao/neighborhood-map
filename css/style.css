@@ -1,7 +1,6 @@
 .wrapper{
     align-items: stretch;
     display: flex;
-    transition: all 0.5s;
 }
 
 #sidebar {
@@ -14,9 +13,14 @@
 
 }
 
+#danger-alert{
+    margin-bottom: 0px;
+    transition: all 0.5s;
+
+}
+
 #sidebar.active {
     margin-left: -250px;
-    transition: all 0.5s;
 }
 
 
@@ -25,7 +29,6 @@
 #map {
     height: calc(100vh - 50px);
     width: 100%;
-    padding-bottom: 100%; 
 }
 
 #content{

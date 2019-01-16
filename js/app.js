@@ -66,6 +66,11 @@ var ViewModel= function(){
 	}
 	
 	
+	this.message = ko.observable();
+
+	this.clearMessage = function(){
+		this.message(0);
+	}
 
 	
 }
@@ -148,7 +153,7 @@ function checkMarkers(locations){
 
 function  getFourSquareInfo(marker){
             
-	 var url = "https://api.foursquare.com/v2/venues/explore?client_id=NU50RLOUCLB0EL0WYS3IWHWDYVBKZ4NB13DOGINFOVGVPZYP&client_secret=4TNFZKQI2SJ1JB0DJPGDFX52FWTJJDABHU4OXFT3YYBGDI3F&v=20170101&v=20180323&limit=1&ll="+marker.position.lat()+"," + marker.position.lng();
+	 var url = "https://api.foursquare..com/v2/venues/explore?client_id=NU50RLOUCLB0EL0WYS3IWHWDYVBKZ4NB13DOGINFOVGVPZYP&client_secret=4TNFZKQI2SJ1JB0DJPGDFX52FWTJJDABHU4OXFT3YYBGDI3F&v=20170101&v=20180323&limit=1&ll="+marker.position.lat()+"," + marker.position.lng();
 
 
 	 $.ajax({
@@ -156,8 +161,8 @@ function  getFourSquareInfo(marker){
 		 contentType: "application/json; charset=utf-8",
 		 dataType: "jsonp",
 		 async: false,
-
-		 success: function (data, status, jqXHR) {
+	 })
+		 .done( function (data) {
 
 			title = data.response.headerLocation;
 			name= data.response.groups[0].items[0].venue.name;
@@ -174,23 +179,32 @@ function  getFourSquareInfo(marker){
 			 setTimeout(function () {
 				 marker.setAnimation(null);
 			 }, 3*600); 
-		}
+		})
+		.fail( function (jqXHR, textStatus, errorThrown){
+			//A function to be called if the request fails.
+			appView.message('Error calling the Foursquare API.')
+        });
 
-	 });
+	 
 	
 	
  }
 
- $(document).ready(function () {
+$(document).ready(function () {
     
-	$('#sidebarCollapse').on('click', function () {
+                $('#sidebarCollapse').on('click', function () {
 
-		$('#sidebar').toggleClass('active');
-	});
-
-});   
+                    $('#sidebar').toggleClass('active');
+                });
+    
+            });   
 
 appView = new ViewModel();
 ko.applyBindings(appView);
 
+
+function mapError(messageOrEvent, source, lineno, colno, error) {
+   
+		appView.message("Oops! Something went wrong. This page didn’t load Google Maps correctly.");
+}
 

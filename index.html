@@ -15,12 +15,18 @@
 </head>
 
 <body>
-	
-	
+<div class="alert alert-danger  alert-dismissible fade show" role="alert" id="danger-alert" data-bind="visible: message, click: clearMessage"  >
+		<span data-bind="text:message"></span>
+		<button type="button" class="close" data-bind = "click: clearMessage" aria-label="Close">
+		<span aria-hidden="true">&times;</span>
+		</button>
+	 </div>
+
+
 	    <div class="wrapper" >
 
 			<nav id="sidebar" class="bg-dark"  >
-				<div class="sidebar-header text-with" >
+				<div class="sidebar-header navbar-brand" >
 					
 					<h3 class="text-white">Vini Locations</h3>
 
@@ -30,7 +36,7 @@
 				<input  data-bind="textInput:filterLocation"/>
 				</div>
 				<ul data-bind="foreach: newArray"  class="list-group">
-					<li class="list-group-item list-group-item-action " data-bind="text: name, click: $parent.setLocation"></li>
+					<a class="list-group-item list-group-item-action  bg-dark text-white " href="#" data-bind="text: name, click: $parent.setLocation"></a>
 				</ul>
 
 				
@@ -38,7 +44,7 @@
 
 			<section id="content" >
 
-					<nav class="navbar navbar-expand-lg navbar-light bg-dark">
+					<nav class="navbar navbar-inverse-lg navbar-light bg-dark">
 							<div class="container-fluid">
 							
 								<button type="button" id="sidebarCollapse" class="btn btn-dark">
@@ -67,7 +73,8 @@
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
 	<script src="js/lib/knockout-3.4.2.js"></script>
     <script src="js/app.js"></script>
-	<script async defer  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDK8AZN0VNJ_dUvi1twkwnusepPvtW9Yck&callback=initMap"></script>
+	<script async defer  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDK8AZN0VNJ_dUvi1twkwnusepPvtW9Yck&callback=initMap"async  defer onerror="mapError()"" ></script>
 
 </body>
 </html>
+
