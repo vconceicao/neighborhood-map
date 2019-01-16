@@ -194,8 +194,10 @@ $(document).ready(function () {
     
                 $('#sidebarCollapse').on('click', function () {
 
-                    $('#sidebar').toggleClass('active');
-                });
+                    $('#filter-sidebar').toggleClass('active');
+				});
+				
+				
     
             });   
 

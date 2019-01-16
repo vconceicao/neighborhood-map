@@ -3,51 +3,37 @@
     display: flex;
 }
 
-#sidebar {
+#filter-sidebar {
     min-width: 250px;
     max-width: 250px;
     min-height: 100vh;
     background: blue;
     transition: all 0.5s;
     padding: 15px;
-
 }
 
 #danger-alert{
     margin-bottom: 0px;
-    transition: all 0.5s;
-
 }
 
-#sidebar.active {
+#filter-sidebar.active {
     margin-left: -250px;
 }
-
-
-  
 
 #map {
     height: calc(100vh - 50px);
     width: 100%;
 }
 
-#content{
+#map-content{
     width: 100%;
 }
 
-
-
-#sidebar.active {
-    margin-left: -250px;
-}
-
 @media (max-width: 768px) {
-    #sidebar {
+    #filter-sidebar {
         margin-left: -250px;
-    }
-    #sidebar.active {
+   }
+    #filter-sidebar.active {
         margin-left: 0;
-    }
-
-
+   }
 }
