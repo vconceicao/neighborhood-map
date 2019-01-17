@@ -1,21 +1,26 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 	<meta charset="utf-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<title>Neighborhood Map</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<!-- Bootstrap CSS CDN -->
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+	<!-- Custom CSS -->
 	<link rel="stylesheet" type="text/css" media="screen" href="css/style.css" />
+	<!-- Font Awesome -->
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
 
-
-	
 	
 </head>
 
 <body>
-<div class="alert alert-danger  alert-dismissible fade show" role="alert" id="danger-alert" data-bind="visible: message, click: clearMessage"  >
+
+	
+
+<div class="alert alert-danger  alert-dismissible" role="alert" id="danger-alert" data-bind="visible: message, click: clearMessage"  >
 		<span data-bind="text:message"></span>
 		<button type="button" class="close" data-bind = "click: clearMessage" aria-label="Close">
 		<span aria-hidden="true">&times;</span>
@@ -35,8 +40,8 @@
 				<div class="input-group mb-3">
 				<input  data-bind="textInput:filterLocation"/>
 				</div>
-				<ul data-bind="foreach: newArray"  class="list-group">
-					<a class="list-group-item list-group-item-action  bg-dark text-white " href="#" data-bind="text: name, click: $parent.setLocation"></a>
+				<ul data-bind="foreach: filteredLocations"  class="list-group">
+				   <li> <a class="list-group-item list-group-item-action  bg-dark text-white " href="#" data-bind="text: name, click: $parent.setLocation"></a></li> 
 				</ul>
 
 				
@@ -68,13 +73,16 @@
 		</div>
 
     
-
-	<script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+	 <!-- Jquery  -->
+	<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+	 <!-- Bootstrap JS -->
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+	 <!-- Knockout JS -->
 	<script src="js/lib/knockout-3.4.2.js"></script>
-    <script src="js/app.js"></script>
-	<script async defer  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDK8AZN0VNJ_dUvi1twkwnusepPvtW9Yck&callback=initMap"async  defer onerror="mapError()"" ></script>
+	 <!-- Custom app -->
+	<script src="js/app.js"></script>
+	 <!-- Gmaps API -->
+	<script async defer  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDK8AZN0VNJ_dUvi1twkwnusepPvtW9Yck&callback=initMap" onerror="mapError()" ></script>
 
 </body>
 </html>
-

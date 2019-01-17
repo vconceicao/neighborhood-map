@@ -1,4 +1,5 @@
-var locations = [
+//Pre-loaded locations  with its coordenates
+const locations = [
 	{
 		coords:{lat: -22.5112, lng: -43.1779 },
 		name: "Petrópolis"
@@ -23,17 +24,19 @@ var locations = [
 ];
 
 
-
-var ViewModel= function(){
+let ViewModel= function(){
 	
-	var self = this;
+	const self = this;
 
 	self.filterLocation = ko.observable("");
 
 	self.location = ko.observable();
 	
 	self.locationsList = ko.observableArray([]);
+
+	self.message = ko.observable();
 	
+	//iterates the locations array and put it in the obserble array
 	ko.utils.arrayForEach(locations,function(locationItem){
 		
 			self.locationsList.push(locationItem);
@@ -41,71 +44,77 @@ var ViewModel= function(){
 	});
 
 
-
-	this.newArray = ko.computed(function(){
-	
-			return ko.utils.arrayFilter(self.locationsList(), function(s){
-				return s.name.toLowerCase().indexOf(self.filterLocation().toLowerCase()) > -1  ;
-			});
+	//search the locations list based in the filter input
+	self.filteredLocations = ko.computed(function(){
+		
+		//return an array of elements that contains the chars the of the search input
+		return ko.utils.arrayFilter(self.locationsList(), function(s){
+			return s.name.toLowerCase().indexOf(self.filterLocation().toLowerCase())>-1 ;
+		});
 
 	
 		
 	})
 
-
-	this.setLocation = function(obj) {
+	//the selected location
+	self.setLocation = function(obj) {
 
 		ko.utils.arrayFilter(markers, function(marker){
-			if (marker.title == obj.name) {
+			//trigger the event if the list view object have the same name of the marker			
+			if (marker.title === obj.name) {
                 google.maps.event.trigger(marker, 'click');
             }
 
-		})
+		});
 	
 	
+	};
+	
+	
+
+	//clears the error message
+	self.clearMessage = function(){
+		self.message(0);
 	}
-	
-	
-	this.message = ko.observable();
-
-	this.clearMessage = function(){
-		this.message(0);
-	}
 
 	
-}
+	//Notify if there any changes in the locations array
+	self.filteredLocations.subscribe(function(array){
+		changeMarkersVisibility(array);
+	});
 
-//global var
-var map;
+	
+};
+
+//global vars
+let map;
+let markers = [];
 
 
+//function that is called when the scripts is loaded
 function  initMap(){
-	var options= {
+	const options= {
 		zoom: 8,
 		center: {lat: -22.9068, lng: -43.1729 }
-	}
+	};
 
+	//creates a new map based in the options
 	map = new google.maps.Map(document.getElementById('map'), options);
 
 
-	//add a marker
-	addMarkers(appView.newArray())	
-
-	appView.newArray.subscribe(function(array){
-		checkMarkers(array);
-		
-	})
-
+	//add markers
+	addMarkers(appView.filteredLocations())	;
 	
 }
 
 
-var markers = [];
+
 //adding markers in the marker in the based in the array of locations
 function addMarkers(locations){
 
 	ko.utils.arrayForEach(locations,function(location){
 	
+		//create a new marker
 		var marker = new google .maps.Marker ({
 			position: location.coords,
 			map:map,
@@ -114,8 +123,7 @@ function addMarkers(locations){
 		}); 
 
 		markers.push(marker);
-		var infoWindow = new google.maps.InfoWindow();
-	
+		
 
 		marker.addListener('click', function(){
 			getFourSquareInfo( marker);
@@ -128,32 +136,34 @@ function addMarkers(locations){
 }
 
 
-
-function isThereAMarkerInTheArray(locations, marker){
+//Search the array for a given marker
+function isThereAnyMarkerInTheArray(locations, marker){
 	return  ko.utils.arrayFirst(locations, function(location){
-		return marker.title==location.name;
-	})
+		return marker.title===location.name;
+	});
 }
 
-function checkMarkers(locations){
-	
+//Sets the visibility of the marker depending on the filtered array
+function changeMarkersVisibility(locations){
+	//iterate the markers array to search for any marker that is equal to the filteredLocation
 	ko.utils.arrayForEach(markers,function(marker){
 	
-		if(isThereAMarkerInTheArray(locations, marker)){
-			marker.setVisible(true)
+		if(isThereAnyMarkerInTheArray(locations, marker)){
+			marker.setVisible(true);
 		}else{
-			marker.setVisible(false)
+			marker.setVisible(false);
 		}
-	}) 
+	});
 	
 		
 	   
 
 }
 
+//Get info about the place in foursquare api
 function  getFourSquareInfo(marker){
             
-	 var url = "https://api.foursquare..com/v2/venues/explore?client_id=NU50RLOUCLB0EL0WYS3IWHWDYVBKZ4NB13DOGINFOVGVPZYP&client_secret=4TNFZKQI2SJ1JB0DJPGDFX52FWTJJDABHU4OXFT3YYBGDI3F&v=20170101&v=20180323&limit=1&ll="+marker.position.lat()+"," + marker.position.lng();
+	 var url = "https://api.foursquare.com/v2/venues/explore?client_id=NU50RLOUCLB0EL0WYS3IWHWDYVBKZ4NB13DOGINFOVGVPZYP&client_secret=4TNFZKQI2SJ1JB0DJPGDFX52FWTJJDABHU4OXFT3YYBGDI3F&v=20170101&v=20180323&limit=1&ll="+marker.position.lat()+"," + marker.position.lng();
 
 
 	 $.ajax({
@@ -162,7 +172,7 @@ function  getFourSquareInfo(marker){
 		 dataType: "jsonp",
 		 async: false,
 	 })
-		 .done( function (data) {
+	.done( function (data) {
 
 			title = data.response.headerLocation;
 			name= data.response.groups[0].items[0].venue.name;
@@ -181,7 +191,7 @@ function  getFourSquareInfo(marker){
 			 }, 3*600); 
 		})
 		.fail( function (jqXHR, textStatus, errorThrown){
-			//A function to be called if the request fails.
+			//A function called when request fails.
 			appView.message('Error calling the Foursquare API.')
         });
 
@@ -190,6 +200,7 @@ function  getFourSquareInfo(marker){
 	
  }
 
+ //move the sidebar to the left when the user clicks the butten
 $(document).ready(function () {
     
                 $('#sidebarCollapse').on('click', function () {
@@ -201,12 +212,12 @@ $(document).ready(function () {
     
             });   
 
+//creates the ViewModel
 appView = new ViewModel();
 ko.applyBindings(appView);
 
-
+//Shows a message to the user about map error.
 function mapError(messageOrEvent, source, lineno, colno, error) {
    
 		appView.message("Oops! Something went wrong. This page didn’t load Google Maps correctly.");
 }
-

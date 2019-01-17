@@ -10,6 +10,7 @@
     background: blue;
     transition: all 0.5s;
     padding: 15px;
+    background-image: url("../img/prism.png");
 }
 
 #danger-alert{
