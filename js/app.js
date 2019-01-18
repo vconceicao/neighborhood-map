@@ -142,9 +142,15 @@ ko.utils.arrayForEach(locations, function (location) {
 
 	markers.push(marker);
 
-	marker.addListener('click', function () {
-		getFourSquareInfo(marker);
+		//creates an info window showing the info of the location	
+	var infoWindow = new google.maps.InfoWindow({
+		maxWidth :400
 	});
+
+	marker.addListener('click', function () {
+		getFourSquareInfo(marker, infoWindow);
+	});
+
 
 
 });
@@ -175,10 +181,9 @@ ko.utils.arrayForEach(markers, function (marker) {
 }
 
 //Get info about the place in foursquare api
-function getFourSquareInfo(marker) {
+function getFourSquareInfo(marker, infoWindow) {
 
-var url =
-	"https://api.foursquare.com/v2/venues/explore?client_id=NU50RLOUCLB0EL0WYS3IWHWDYVBKZ4NB13DOGINFOVGVPZYP&client_secret=4TNFZKQI2SJ1JB0DJPGDFX52FWTJJDABHU4OXFT3YYBGDI3F&v=20170101&v=20180323&limit=1&ll=" +
+const url =	"https://api.foursquare.com/v2/venues/explore?client_id=NU50RLOUCLB0EL0WYS3IWHWDYVBKZ4NB13DOGINFOVGVPZYP&client_secret=4TNFZKQI2SJ1JB0DJPGDFX52FWTJJDABHU4OXFT3YYBGDI3F&v=20170101&v=20180323&limit=1&ll=" +
 	marker.position.lat() + "," + marker.position.lng();
 
 
@@ -197,9 +202,7 @@ $.ajax({
 		loc = data.response.groups[0].items[0].venue.location
 			.formattedAddress;
 
-		//creates an info window showing the info of the location	
-		var infoWindow = new google.maps.InfoWindow();
-
+	
 		infoWindow.setContent('<h3>' + title +
 			'</h3><p  class="font-weight-normal" >Recommended Place</p>' +
 			'<p class="font-weight-bold">' + name + '</p>' +
