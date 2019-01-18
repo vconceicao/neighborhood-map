@@ -38,8 +38,14 @@
 				</div>
 
 				<div class="input-group mb-3">
-				<input  data-bind="textInput:filterLocation"/>
-				</div>
+				<input  data-bind="textInput:filterLocation" placeholder="Filter a location" aria-describedby="filter"/>
+				<div class="input-group-append ">
+					<span class="input-group-text bg-secondary border-0" id="filter">
+						<i class="fas fa-filter text-white"></i>
+					</span>
+				  </div>
+			</div>
+
 				<ul data-bind="foreach: filteredLocations"  class="list-group">
 				   <li> <a class="list-group-item list-group-item-action  bg-dark text-white " href="#" data-bind="text: name, click: $parent.setLocation"></a></li> 
 				</ul>
@@ -82,7 +88,7 @@
 	 <!-- Custom app -->
 	<script src="js/app.js"></script>
 	 <!-- Gmaps API -->
-	<script async defer  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDK8AZN0VNJ_dUvi1twkwnusepPvtW9Yck&callback=initMap" onerror="mapError()" ></script>
+	<script async defer  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDK8AZN0VNJ_dUvi1twkwnusepPvtW9Yck&callback=initMap" onerror="handleMapError()" ></script>
 
 </body>
 </html>
