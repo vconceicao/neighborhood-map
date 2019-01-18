@@ -23,3 +23,4 @@ OR
 - Open the file index.html in your browser.
 
 ### Screenshot ###
+![Alt text](https://raw.githubusercontent.com/vconceicao/neighborhood-map/master/thumb.PNG)
