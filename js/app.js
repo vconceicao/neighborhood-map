@@ -120,15 +120,16 @@ const options = {
 //creates a new map based in the options
 map = new google.maps.Map(document.getElementById('map'), options);
 
+var infoWindow = new google.maps.InfoWindow();
 
 //add markers
-addMarkers(appView.filteredLocations());
+addMarkers(appView.filteredLocations(), infoWindow);
 
 }
 
 
 //adding markers in the marker in the based in the array of locations
-function addMarkers(locations) {
+function addMarkers(locations, infoWindow) {
 
 ko.utils.arrayForEach(locations, function (location) {
 
@@ -142,13 +143,11 @@ ko.utils.arrayForEach(locations, function (location) {
 
 	markers.push(marker);
 
-		//creates an info window showing the info of the location	
-	var infoWindow = new google.maps.InfoWindow({
-		maxWidth :400
-	});
-
+	//creates an info window showing the info of the location	
 	marker.addListener('click', function () {
-		getFourSquareInfo(marker, infoWindow);
+		var self = this;
+		getFourSquareInfo(this, infoWindow);
+
 	});
 
 
@@ -228,7 +227,6 @@ $.ajax({
 $(document).ready(function () {
 
 $('#sidebarCollapse').on('click', function () {
-
 	$('#filter-sidebar').toggleClass('active');
 });
 

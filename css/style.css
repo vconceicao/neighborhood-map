@@ -3,6 +3,12 @@
     display: flex;
 }
 
+.map-cont{
+
+    position: fixed;
+    width: 100%;
+}
+
 #filter-sidebar {
     min-width: 250px;
     max-width: 250px;
